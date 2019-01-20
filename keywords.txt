@@ -1,0 +1,12 @@
+# -----------------------------------------
+# Syntax colouring for RsbLib demo library
+# -----------------------------------------
+
+# Datatypes (such as objects)
+CSVLogFile KEYWORD1
+
+#Methods / functions
+begin 	KEYWORD2
+writeLog KEYWORD2
+
+# Constants
