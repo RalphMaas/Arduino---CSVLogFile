@@ -9,27 +9,30 @@
 #include <SD.h>
 #include "CSVLogFile.h"
 
-CSVLogFile::CSVLogFile(int csPin, int writeLedPin, int errorLedPin)
+CSVLogFile::CSVLogFile(int csPin, int writeLedPin, int errorLedPin, int logButtonPin)
 {
    _cs = csPin;
    _writeLedPin = writeLedPin;
    _errorLedPin = errorLedPin;
-   
-   _Debug = false;
+   _logButtonPin = logButtonPin; 
+   _debug = false;
+   _buttonState = 0;
 }
 
-void CSVLogFile::begin(int baudrate=9600, bool debug)
+void CSVLogFile::begin(int baudrate=9600, String initalFileName, bool useDebug = false)
 {
-   _Debug = debug;
-   Serial.begin(baudrate);
-   
+   _debug = useDebug;
+   _filename = initalFileName;
+  
    pinMode(_writeLedPin, OUTPUT);
    pinMode(_errorLedPin, OUTPUT);
-   
-   debug("Initializing SD card...");
+   pinMode(_logButtonPin, INPUT);
+
+   Serial.begin(baudrate);
+   debug("initializing SD card...");
 
    if (!SD.begin(_cs)) {
-       debug("Card failed, or not present");
+       debug("card failed, or not present");
        error();
    } else {
        ready();
@@ -37,54 +40,67 @@ void CSVLogFile::begin(int baudrate=9600, bool debug)
    };
 }
 
-void CSVLogFile::writeLog(String data,String filename)
+void CSVLogFile::writeData(String data)
 {
-    File dataFile = SD.open(filename, FILE_WRITE);
-    if (dataFile) {
-       debug(data);
+    _buttonState = digitalRead(_logButtonPin); 
+    if(_buttonState == HIGH ){
+        File dataFile = SD.open(_filename, FILE_WRITE);
+        if (dataFile) {
+          debug(data);
 
-       if (doWriteEvent())
-       {
-           _doWriteEvent();
-           debug("doWriteEvent is set");
-       }
-       else
-       {
-            debug("doWriteEvent is not attached");
+          if (_doWriteEvent)
+          {
+              _doWriteEvent();
+              debug("doWriteEvent is attached");
+          }
+          else
+          {
+                debug("doWriteEvent is not attached");
 
-       }
-       ready();
-       dataFile.println(data);
-       dataFile.close();
+          }
+          ready();
+          dataFile.println(data);
+          dataFile.close();
+        }
+        else {
+          error();
+      }
     }
-    else {
-      debug("error opening datalog.txt");
-      error();
-   }
+    else{
+      stop();
+    }
 }
 
 void CSVLogFile::onWriteEvent(void *doWriteEvent())
 {
   _doWriteEvent = doWriteEvent;
-  debug("Call callback");
+  debug("call callback");
 }
 
 //private methods
+void CSVLogFile::stop()
+{
+     debug("writing stop");
+     digitalWrite(_writeLedPin, LOW);
+}
+
 void CSVLogFile::error()
 {
+    debug("error occured");
     digitalWrite(_errorLedPin, HIGH);
     digitalWrite(_writeLedPin, LOW);
 }
 
 void CSVLogFile::ready()
 {
+   debug("ready to write");
    digitalWrite(_errorLedPin, LOW);
    digitalWrite(_writeLedPin, HIGH);
 }
 
 void CSVLogFile::debug(String msg)
 {
-  if (_useLogging)
+  if (_debug)
   {
     Serial.println("CSVLogFile - " + String(msg));
   }

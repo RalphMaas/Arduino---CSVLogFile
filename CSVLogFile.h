@@ -14,19 +14,23 @@
 class CSVLogFile
 {
   public:
-    CSVLogFile(int csPin, int writeLedPin, int errorLedPin);
-    void begin(int baudrate=9600, bool debug=false);
-    void writeLog(String data,String filename);
+    CSVLogFile(int csPin, int writeLedPin, int errorLedPin, int logButtonPin);
+    void begin(int baudrate=9600, String initalFileName, bool useDebug=false);
+    void writeData(String data);
     void onWriteEvent(void *doWriteEvent());
+    void start()
   private:
      int _cs;
-     int _outputWrite;
-     int _outputError;
+     int _writeLedPin;
+     int _errorLedPin;
+     int _logButtonPin;
+     int _buttonState; 
      String _filename;
      bool _debug;
      
      void error();
      void ready();
+     void stop();
      void debug(String msg);
      void (*_doWriteEvent)();
 };
