@@ -1,31 +1,39 @@
+
+#if (ARDUINO >=100)
+  #include "Arduino.h"
+#else
+  #include "WProgram.h"
+#endif
+
 #include <SPI.h>
 #include <SD.h>
-
-#include "Arduino.h"
 #include "CSVLogFile.h"
 
-CSVLogFile::CSVLogFile(int cs, int outputWrite, int outputError)
+CSVLogFile::CSVLogFile(int csPin, int writeLedPin, int errorLedPin)
 {
-   _cs = cs;
-   _outputWrite = outputWrite;
-   _outputError = outputError;
-   _useLogging = false;
+   _cs = csPin;
+   _writeLedPin = writeLedPin;
+   _errorLedPin = errorLedPin;
+   
+   _Debug = false;
 }
 
-void CSVLogFile::begin(int baudrate=9600, bool useLogging)
+void CSVLogFile::begin(int baudrate=9600, bool debug)
 {
-   _useLogging = useLogging;
+   _Debug = debug;
    Serial.begin(baudrate);
-   pinMode(_outputWrite, OUTPUT);
-   pinMode(_outputError, OUTPUT);
    
-   SerialLog("Initializing SD card...");
+   pinMode(_writeLedPin, OUTPUT);
+   pinMode(_errorLedPin, OUTPUT);
+   
+   debug("Initializing SD card...");
+
    if (!SD.begin(_cs)) {
-       SerialLog("Card failed, or not present");
+       debug("Card failed, or not present");
        error();
    } else {
-       writing();
-       SerialLog("card initialized.");
+       ready();
+       debug("card initialized.");
    };
 }
 
@@ -33,40 +41,48 @@ void CSVLogFile::writeLog(String data,String filename)
 {
     File dataFile = SD.open(filename, FILE_WRITE);
     if (dataFile) {
-       SerialLog(data);
-       writing();
+       debug(data);
 
+       if (doWriteEvent())
+       {
+           _doWriteEvent();
+           debug("doWriteEvent is set");
+       }
+       else
+       {
+            debug("doWriteEvent is not attached");
+
+       }
+       ready();
        dataFile.println(data);
-       _onWritingCallback();
        dataFile.close();
     }
     else {
-      SerialLog("error opening datalog.txt");
+      debug("error opening datalog.txt");
       error();
    }
 }
 
-
-void CSVLogFile::setOnWritingCallback(void *onWritingCallback())
+void CSVLogFile::onWriteEvent(void *doWriteEvent())
 {
-  _onWritingCallback = onWritingCallback;
-  SerialLog("Call callback");
+  _doWriteEvent = doWriteEvent;
+  debug("Call callback");
 }
 
 //private methods
 void CSVLogFile::error()
 {
-    digitalWrite(_outputError, HIGH);
-    digitalWrite(_outputWrite, LOW);
+    digitalWrite(_errorLedPin, HIGH);
+    digitalWrite(_writeLedPin, LOW);
 }
 
-void CSVLogFile::writing()
+void CSVLogFile::ready()
 {
-   digitalWrite(_outputError, LOW);
-   digitalWrite(_outputWrite, HIGH);
+   digitalWrite(_errorLedPin, LOW);
+   digitalWrite(_writeLedPin, HIGH);
 }
 
-void CSVLogFile::SerialLog(String msg)
+void CSVLogFile::debug(String msg)
 {
   if (_useLogging)
   {
