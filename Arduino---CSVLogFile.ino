@@ -16,7 +16,7 @@ String filename;
 //int buttonState = 0; 
 
 unsigned long previousMillis = 0;
-unsigned long interval = 5000;
+unsigned long interval = 2500;
 
 CSVLogFile logfile(chipSelect,LED_WRITE,LED_ERROR,BUTTON_PIN);
 
@@ -27,16 +27,16 @@ void setup() {
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }
-
-Serial.begin(9600);
-  logfile.begin(9600,"logging.csv", true);
+  
+  Serial.begin(9600);
+  logfile.begin("time;voltage;current",9600,true);
   logfile.onWriteEvent(onWriteEvent);
 }
 
 
 void loop() {
   unsigned long currentMillis = millis();
-  buttonState = digitalRead(BUTTON_PIN);
+  //buttonState = digitalRead(BUTTON_PIN);
   
   if (currentMillis - previousMillis >= interval)
   {

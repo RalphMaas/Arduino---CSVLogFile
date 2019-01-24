@@ -15,23 +15,30 @@ class CSVLogFile
 {
   public:
     CSVLogFile(int csPin, int writeLedPin, int errorLedPin, int logButtonPin);
-    void begin(int baudrate=9600, String initalFileName, bool useDebug=false);
+    void begin(String csvHeader, int baudrate=9600, bool useDebug=false);
     void writeData(String data);
     void onWriteEvent(void *doWriteEvent());
-    void start()
+    void start();
   private:
      int _cs;
      int _writeLedPin;
      int _errorLedPin;
      int _logButtonPin;
      int _buttonState; 
-     String _filename;
+     bool _needNewFileName;
+     char _filename[16];
+     int _fileCount;
+     String _csvHeader;
+     bool _newFile;
      bool _debug;
      
      void error();
      void ready();
      void stop();
      void debug(String msg);
+     void setFileName();
+     void doWrite();
+     
      void (*_doWriteEvent)();
 };
 #endif

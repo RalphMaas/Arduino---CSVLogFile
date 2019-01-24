@@ -1,0 +1,83 @@
+#include <SD.h>
+
+//initialize pins for SD shield
+const int chipSelect = 10;
+
+// make it long enough to hold your longest file name, plus a null terminator
+char filename[16];
+
+//initialize pins for sensors
+int sensor1Pin = 0;
+int sensor2Pin = 1;
+int sensor3Pin = 2;
+int sensor4Pin = 3;
+
+//manually input desired filename here before each test
+char *s = "TR3035_";
+
+
+void setup()
+  {
+    Serial.begin(9600);  // Open serial communications and wait for port to open:
+  
+  Serial.print("Initializing SD card...");
+  // make sure that the default chip select pin is set to
+  // output, even if you don't use it:
+  pinMode(10, OUTPUT);
+  
+  // see if the card is present and can be initialized:
+  if (!SD.begin(chipSelect)) {
+    Serial.println("Card failed, or not present");
+    // don't do anything more:
+    return;
+  }
+  Serial.println("card initialized.");
+  int n = 0;  
+  snprintf(filename, sizeof(filename), "%s%02d.txt", s, n); // includes a two-digit sequence number in the file name
+  while(SD.exists(filename)) {
+    n++;
+    snprintf(filename, sizeof(filename), "%s%02d.txt", s, n);
+  }
+  File dataFile = SD.open(filename,FILE_READ);
+  Serial.println(n);
+  Serial.println(filename);
+  dataFile.close();
+  //now filename[] contains the name of a file that doesn't exist
+  }
+  
+void loop()
+  {
+    File dataFile = SD.open(filename, FILE_WRITE);
+    if (dataFile) {
+      float sensorVal[] = {0, 0, 0, 0};
+      
+      //read sensor values
+      sensorVal[0] = analogRead(sensor1Pin);
+      sensorVal[1] = analogRead(sensor2Pin);
+      sensorVal[2] = analogRead(sensor3Pin);
+      sensorVal[3] = analogRead(sensor4Pin);
+
+      //print values to the serial monitor
+      Serial.print(sensorVal[0]);
+      Serial.print(",");
+      Serial.print(sensorVal[1]);
+      Serial.print(",");
+      Serial.print(sensorVal[2]);
+      Serial.print(",");
+      Serial.println(sensorVal[3]);
+
+      //print values to data file
+      dataFile.print(sensorVal[0]);
+      dataFile.print(",");
+      dataFile.print(sensorVal[1]);
+      dataFile.print(",");
+      dataFile.print(sensorVal[2]);
+      dataFile.print(",");
+      dataFile.println(sensorVal[3]);
+      dataFile.close();
+    }
+    else {
+      Serial.println("error");
+ }
+ delay(10);
+  }
