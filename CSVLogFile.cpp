@@ -35,11 +35,11 @@ void CSVLogFile::begin(String csvHeader, int baudrate=9600, bool useDebug=false)
    debug("initializing SD card...");
 
    if (!SD.begin(_cs)) {
-       debug("card failed, or not present");
+       debug(F("card failed, or not present"));
        error();
    } else {
        ready();
-       debug("card initialized.");
+       debug(F("card initialized."));
    };
 }
 
@@ -72,42 +72,57 @@ void CSVLogFile::writeData(String data)
 void CSVLogFile::onWriteEvent(void *doWriteEvent())
 {
   _doWriteEvent = doWriteEvent;
-  debug("call callback");
+  debug(F("call callback"));
+}
+
+
+void CSVLogFile::onStopEvent(void *doStopEvent())
+{
+  _doStopEvent = doStopEvent;
+  debug(F("call callback"));
+}
+
+int CSVLogFile::fileCount()
+{
+  return _fileCount;
 }
 
 //private methods
 void CSVLogFile::doWrite()
 {
     ready();
-    debug("write to "+String(_filename));
+    debug(F("write to file :"));
+    debug(String(_filename));
     if (_doWriteEvent)
     {
       _doWriteEvent();
-      debug("doWriteEvent is attached");
-    }
-    else
-    {
-      debug("doWriteEvent is not attached");
     }
 }
 
 void CSVLogFile::stop()
 {
-    debug("writing stop");
+    debug(F("writing stop"));
     digitalWrite(_writeLedPin, LOW);
+    digitalWrite(_errorLedPin, HIGH);
     _needNewFileName = true;
+    delay(100);
+    if (_doStopEvent)
+    {
+      _doStopEvent();
+    }
+
 }
 
 void CSVLogFile::error()
 {
-    debug("error occured");
+    debug(F("error occured"));
     digitalWrite(_errorLedPin, HIGH);
     digitalWrite(_writeLedPin, LOW);
 }
 
 void CSVLogFile::ready()
 {
-   debug("ready to write");
+   debug(F("ready to write"));
    digitalWrite(_errorLedPin, LOW);
    digitalWrite(_writeLedPin, HIGH);
 }
@@ -125,7 +140,6 @@ void CSVLogFile::setFileName()
      _newFile = true;
      _needNewFileName = false;
      _fileCount = n + 1;//begins to count on 0
-     debug("filecount: " +String(_fileCount));
   };
 }
 

@@ -10,6 +10,7 @@
 #else
   #include "WProgram.h"
 #endif
+#include <SD.h>
  
 class CSVLogFile
 {
@@ -18,7 +19,9 @@ class CSVLogFile
     void begin(String csvHeader, int baudrate=9600, bool useDebug=false);
     void writeData(String data);
     void onWriteEvent(void *doWriteEvent());
+    void onStopEvent(void *doStopEvent());
     void start();
+    int fileCount();
   private:
      int _cs;
      int _writeLedPin;
@@ -40,5 +43,6 @@ class CSVLogFile
      void doWrite();
      
      void (*_doWriteEvent)();
+     void (*_doStopEvent)();
 };
 #endif

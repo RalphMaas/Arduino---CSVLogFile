@@ -31,18 +31,19 @@ void setup() {
   Serial.begin(9600);
   logfile.begin("time;voltage;current",9600,true);
   logfile.onWriteEvent(onWriteEvent);
+  logfile.onStopEvent(onStopEvent);
 }
 
 
 void loop() {
   unsigned long currentMillis = millis();
-  //buttonState = digitalRead(BUTTON_PIN);
-  
   if (currentMillis - previousMillis >= interval)
   {
         previousMillis = currentMillis;
         String dataString = String(currentMillis)+";"+String(loadvoltage)+";"+String(current_mA);
         logfile.writeData(dataString);
+        Serial.print(F("filecount : "));
+        Serial.println(String(logfile.fileCount()));
         loadvoltage++;
         current_mA++;
   }
@@ -50,7 +51,11 @@ void loop() {
 
 void onWriteEvent()
 {
-  PIND |= (1<<PIND3);
- 
+  PIND |= (1<<PIND3);//blink write led
+}
+
+void onStopEvent()
+{
+  PIND |= (1<<PIND2);//blink stop/error led
 }
 
