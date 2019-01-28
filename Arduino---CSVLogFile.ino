@@ -18,10 +18,12 @@ String filename;
 unsigned long previousMillis = 0;
 unsigned long interval = 2500;
 
-CSVLogFile logfile(chipSelect,LED_WRITE,LED_ERROR,BUTTON_PIN);
+CSVLogFile logfile(chipSelect, BUTTON_PIN);
 
 void setup() {
   //pinMode(BUTTON_PIN, INPUT);
+  pinMode(LED_ERROR,OUTPUT);
+  pinMode(LED_WRITE,OUTPUT);
     
   Serial.begin(9600);
   while (!Serial) {
@@ -29,9 +31,10 @@ void setup() {
   }
   
   Serial.begin(9600);
-  logfile.begin("time;voltage;current",9600,true);
+  logfile.begin();
   logfile.onWriteEvent(onWriteEvent);
-  logfile.onStopEvent(onStopEvent);
+  logfile.onErrorEvent(onErrorEvent);
+  logfile.onPauseEvent(onPauseEvent);
 }
 
 
@@ -41,9 +44,8 @@ void loop() {
   {
         previousMillis = currentMillis;
         String dataString = String(currentMillis)+";"+String(loadvoltage)+";"+String(current_mA);
-        logfile.writeData(dataString);
-        Serial.print(F("filecount : "));
-        Serial.println(String(logfile.fileCount()));
+        logfile.logData(dataString,true);
+        
         loadvoltage++;
         current_mA++;
   }
@@ -52,9 +54,15 @@ void loop() {
 void onWriteEvent()
 {
   PIND |= (1<<PIND3);//blink write led
+  Serial.println("onWriteEvent fired");
 }
 
-void onStopEvent()
+void onErrorEvent()
+{
+  digitalWrite(LED_ERROR, HIGH);
+}
+
+void onPauseEvent()
 {
   PIND |= (1<<PIND2);//blink stop/error led
 }

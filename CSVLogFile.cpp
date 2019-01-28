@@ -9,144 +9,156 @@
 #include <SD.h>
 #include "CSVLogFile.h"
 
-CSVLogFile::CSVLogFile(int csPin, int writeLedPin, int errorLedPin, int logButtonPin)
+enum sd_state_enum { INIT, INIT_ERROR, PENDING, CHECKCARD, WRITE, ERROR };
+
+CSVLogFile::CSVLogFile(uint8_t csPin, uint8_t buttonPin)
 {
    _cs = csPin;
-   _writeLedPin = writeLedPin;
-   _errorLedPin = errorLedPin;
-   _logButtonPin = logButtonPin; 
-   _debug = false;
-   _buttonState = 0;
-   _needNewFileName = true;
-   _fileCount = 0;
-   _newFile = true;
+   _buttonPin = buttonPin;
+   _new_file = true;
+   _state = INIT;
 }
 
-void CSVLogFile::begin(String csvHeader, int baudrate=9600, bool useDebug=false)
+void CSVLogFile::logData(String data, bool debug = false)
 {
-   _debug = useDebug;
-   _csvHeader = csvHeader;
-   
-   pinMode(_writeLedPin, OUTPUT);
-   pinMode(_errorLedPin, OUTPUT);
-   pinMode(_logButtonPin, INPUT);
-
-   Serial.begin(baudrate);
-   debug("initializing SD card...");
-
-   if (!SD.begin(_cs)) {
-       debug(F("card failed, or not present"));
-       error();
-   } else {
-       ready();
-       debug(F("card initialized."));
-   };
+    _data = data;
+    _use_debug = debug;
+    _state_machine_run();
 }
 
-void CSVLogFile::writeData(String data)
+void CSVLogFile::begin()
 {
-    _buttonState = digitalRead(_logButtonPin); 
-    if(_buttonState == HIGH ){
-        setFileName();
-        File dataFile = SD.open(_filename, FILE_WRITE);
-        if (dataFile) {
-          debug(data);
-          doWrite();
-          if (_newFile){
-             dataFile.println(_csvHeader);
-             _newFile = false;
-          };
-          
-          dataFile.println(data);
-          dataFile.close();
-        }
-        else {
-          error();
-      }
-    }
-    else{
-      stop();
-    }
+  pinMode(_buttonPin,INPUT);
+}
+
+
+void CSVLogFile::onErrorEvent(void *doErrorEvent())
+{
+  _doErrorEvent = doErrorEvent;
+}
+
+void CSVLogFile::onPauseEvent(void *doPendingEvent())
+{
+  _doPendingEvent = doPendingEvent;
 }
 
 void CSVLogFile::onWriteEvent(void *doWriteEvent())
 {
   _doWriteEvent = doWriteEvent;
-  debug(F("call callback"));
-}
-
-
-void CSVLogFile::onStopEvent(void *doStopEvent())
-{
-  _doStopEvent = doStopEvent;
-  debug(F("call callback"));
-}
-
-int CSVLogFile::fileCount()
-{
-  return _fileCount;
 }
 
 //private methods
-void CSVLogFile::doWrite()
+void CSVLogFile::_state_machine_run() 
 {
-    ready();
-    debug(F("write to file :"));
-    debug(String(_filename));
-    if (_doWriteEvent)
-    {
-      _doWriteEvent();
-    }
+  _debug("state = "+String(_state));
+  
+  switch(_state)
+  {
+    case INIT:
+      _doInit();
+      break;
+
+    case INIT_ERROR:
+      _doInitiError();
+      break;
+
+    case PENDING:
+      _doPending();
+      break;
+
+    case CHECKCARD:
+     _doCheckCard();
+      break;
+
+    case WRITE:
+     _doWrite();
+      break;
+
+    case ERROR:
+      _doError();
+      break;  
+  }
 }
 
-void CSVLogFile::stop()
+void CSVLogFile::_doInit()
 {
-    debug(F("writing stop"));
-    digitalWrite(_writeLedPin, LOW);
-    digitalWrite(_errorLedPin, HIGH);
-    _needNewFileName = true;
-    delay(100);
-    if (_doStopEvent)
-    {
-      _doStopEvent();
-    }
-
+  SD.begin(_cs) ? _state = PENDING : _state = INIT_ERROR;
 }
 
-void CSVLogFile::error()
+void CSVLogFile::_doInitiError()
 {
-    debug(F("error occured"));
-    digitalWrite(_errorLedPin, HIGH);
-    digitalWrite(_writeLedPin, LOW);
+   if(_doErrorEvent){ _doErrorEvent(); }
+   _state = INIT;
 }
 
-void CSVLogFile::ready()
+void CSVLogFile::_doError()
 {
-   debug(F("ready to write"));
-   digitalWrite(_errorLedPin, LOW);
-   digitalWrite(_writeLedPin, HIGH);
+   if(_doErrorEvent){ _doErrorEvent(); }
+   _state = PENDING;
 }
 
-
-void CSVLogFile::setFileName()
+void CSVLogFile::_doPending()
 {
-  if (_needNewFileName){
-     int n = 0;  
-     snprintf(_filename, sizeof(_filename), "data%04d.csv", n); 
-     while(SD.exists(_filename)) {
-       n++;
-       snprintf(_filename, sizeof(_filename), "data%04d.csv", n); 
-     };
-     _newFile = true;
-     _needNewFileName = false;
-     _fileCount = n + 1;//begins to count on 0
+   if( digitalRead(_buttonPin) == HIGH){
+      _state = CHECKCARD;
+   } else{
+      _state = PENDING;
+      _new_file =true;
+      if(_doPendingEvent){ _doPendingEvent(); }
+   }
+}
+
+void CSVLogFile:: _getNewFileName()
+{
+  int n = 0;  
+  snprintf(_filename, sizeof(_filename), "data%04d.csv", n); 
+  while(SD.exists(_filename)) {
+    n++;
+    snprintf(_filename, sizeof(_filename), "data%04d.csv", n); 
   };
+  _new_file = false;
+}
+void CSVLogFile:: _doCheckCard()
+{
+ //check to access card
+  if (SD.open("/")){
+      if(_new_file)
+      {
+        _getNewFileName();
+      }
+      _debug("filename = "+String(_filename));
+      _state = WRITE;
+  }
+  else
+  {
+    _debug("Error in doCheckCard");
+    _state = ERROR;
+  }
 }
 
-
-void CSVLogFile::debug(String msg)
+void CSVLogFile::_doWrite()
 {
-  if (_debug)
+    File dataFile = SD.open(_filename, FILE_WRITE);
+    if (dataFile) {
+      if(_doWriteEvent){ 
+        _debug("call write event");
+        _doWriteEvent(); 
+        }
+
+      //    dataFile.println(_csvHeader);
+      _debug(_data);
+      dataFile.println(_data);
+      dataFile.close();
+      _state = PENDING;
+    }
+    else {
+      _state = ERROR;
+  }
+}
+
+void CSVLogFile::_debug(String msg)
+{
+  if (_use_debug)
   {
     Serial.println("CSVLogFile - " + String(msg));
   }

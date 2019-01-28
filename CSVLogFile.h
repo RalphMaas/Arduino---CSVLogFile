@@ -15,34 +15,35 @@
 class CSVLogFile
 {
   public:
-    CSVLogFile(int csPin, int writeLedPin, int errorLedPin, int logButtonPin);
-    void begin(String csvHeader, int baudrate=9600, bool useDebug=false);
-    void writeData(String data);
-    void onWriteEvent(void *doWriteEvent());
-    void onStopEvent(void *doStopEvent());
-    void start();
-    int fileCount();
+  CSVLogFile(uint8_t csPin, uint8_t buttonPin);
+  void logData(String data, bool debug = false);
+  void begin();
+  void onErrorEvent(void *doErrorEvent());
+  void onPauseEvent(void *_doPendingEvent());
+  void onWriteEvent(void *_doWriteEvent());
   private:
-     int _cs;
-     int _writeLedPin;
-     int _errorLedPin;
-     int _logButtonPin;
-     int _buttonState; 
-     bool _needNewFileName;
+     unsigned long t_start = 0;
+     unsigned long t_cur = 0;
+     uint8_t _cs;
+     uint8_t _buttonPin;
+     uint8_t _state;
+     uint8_t _state_prev;
+     bool _use_debug;
+     bool _new_file;
      char _filename[16];
-     int _fileCount;
-     String _csvHeader;
-     bool _newFile;
-     bool _debug;
-     
-     void error();
-     void ready();
-     void stop();
-     void debug(String msg);
-     void setFileName();
-     void doWrite();
-     
+     String _data;
+
+     void _state_machine_run();
+     void _getNewFileName();
+     void _doInit();
+     void _doInitiError();
+     void _doPending();
+     void _doCheckCard();
+     void _doWrite();
+     void _doError();
+     void _debug(String msg);
+     void (*_doErrorEvent)();
+     void (*_doPendingEvent)();
      void (*_doWriteEvent)();
-     void (*_doStopEvent)();
 };
 #endif

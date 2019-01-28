@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Span Name="SampleViewModel" ColCount="0" ColWidth="50" ExpressionActAsForActions="" ExpressionForAccess="" RowCount="0" RowHeight="20" TabOrder="DisplayOrderYBeforeX" id="003945da-baee-4710-90e0-87e9d6a41fb4">
+  <Class>
+    <Class Name="Class1" idref="0017d588-d3cf-433b-b763-93ae056419c3" />
+  </Class>
+  <Nesting>
+    <Nesting Name="AllInstances" ExpressionActAsForActions="" id="633717c2-f628-4e51-93e7-07d8dbfb2b81">
+      <Class>
+        <Class Name="Class1" idref="0017d588-d3cf-433b-b763-93ae056419c3" />
+      </Class>
+      <OwnedColumns>
+        <Column Name="Attribute1" ActionPeriodicityMillisec="-1" ColSpan="1" ColSpanWhenInGrid="3" Expression="self.Attribute1" ExpressionForReadOnly="" ExpressionForVisible="" IsAction="False" IsStatic="False" NullRowMode="None" NullRowRepresentation="" PresentationString="&lt;Name&gt;" PresentationStringColSpan="1" RowSpan="1" StyleRef="" XPos="1" YPos="1" id="21b46c06-db5d-4c51-8606-0134064ad955" />
+        <Column Name="Class2" ActionPeriodicityMillisec="-1" ColSpan="3" ColSpanWhenInGrid="1" Expression="self.Class2" ExpressionForReadOnly="" ExpressionForVisible="" IsAction="False" IsStatic="False" NullRowMode="None" NullRowRepresentation="" PresentationString="&lt;Name&gt;" PresentationStringColSpan="1" RowSpan="5" StyleRef="" XPos="0" YPos="7" id="16b895f7-cfcb-4b95-8b13-ca83cf4a0667">
+          <ReferedNesting>
+            <Nesting Name="Class2" idref="9587392d-9cb9-4588-a9aa-b57fdf1f38d1" />
+          </ReferedNesting>
+        </Column>
+        <Column Name="self" ActionPeriodicityMillisec="-1" ColSpan="1" ColSpanWhenInGrid="1" Expression="self" ExpressionForReadOnly="" ExpressionForVisible="" IsAction="False" IsStatic="False" NullRowMode="None" NullRowRepresentation="" PresentationString="&lt;Name&gt;" PresentationStringColSpan="1" RowSpan="3" StyleRef="" XPos="1" YPos="3" id="706a43a4-99a5-47a6-a5c6-fd67d81c66fa">
+          <ReferedNesting>
+            <Nesting Name="self" idref="54a3fa3c-9bbe-4195-9b6c-df2655966d13" />
+          </ReferedNesting>
+        </Column>
+      </OwnedColumns>
+      <ReferedByColumn>
+        <Column Name="AllInstances" idref="dcb989a0-2c84-4e92-b67f-2e94965e1009" />
+      </ReferedByColumn>
+    </Nesting>
+    <Nesting Name="Class2" ExpressionActAsForActions="" id="9587392d-9cb9-4588-a9aa-b57fdf1f38d1">
+      <OwnedColumns>
+        <Column Name="Name" ActionPeriodicityMillisec="-1" ColSpan="1" ColSpanWhenInGrid="3" Expression="self.Name" ExpressionForReadOnly="" ExpressionForVisible="" IsAction="False" IsStatic="False" NullRowMode="None" NullRowRepresentation="" PresentationString="&lt;Name&gt;" PresentationStringColSpan="1" RowSpan="1" StyleRef="" XPos="1" YPos="1" id="a0d504f2-21e8-4ea9-9a23-4bebc4e936bf" />
+      </OwnedColumns>
+      <ReferedByColumn>
+        <Column Name="Class2" idref="16b895f7-cfcb-4b95-8b13-ca83cf4a0667" />
+      </ReferedByColumn>
+    </Nesting>
+    <Nesting Name="self" ExpressionActAsForActions="" id="54a3fa3c-9bbe-4195-9b6c-df2655966d13">
+      <Class>
+        <Class Name="Class1" idref="0017d588-d3cf-433b-b763-93ae056419c3" />
+      </Class>
+      <OwnedColumns>
+        <Column Name="Attribute1" ActionPeriodicityMillisec="-1" ColSpan="2" ColSpanWhenInGrid="1" Expression="self.Attribute1" ExpressionForReadOnly="" ExpressionForVisible="" IsAction="False" IsStatic="False" NullRowMode="None" NullRowRepresentation="" PresentationString="&lt;Name&gt;" PresentationStringColSpan="1" RowSpan="1" StyleRef="" XPos="1" YPos="5" id="1c447516-5420-4720-9f0c-fc6ad97b923b" />
+        <Column Name="AddAClass2" ActionPeriodicityMillisec="-1" ColSpan="2" ColSpanWhenInGrid="1" Expression="self.Class2.Add(Class2.Create)" ExpressionForReadOnly="self.isnull" ExpressionForVisible="" IsAction="True" IsStatic="False" NullRowMode="None" NullRowRepresentation="" PresentationString="&lt;Name&gt;" PresentationStringColSpan="1" RowSpan="1" StyleRef="" XPos="0" YPos="6" id="e4538623-60e2-468f-a807-3ba999525496" />
+      </OwnedColumns>
+      <ReferedByColumn>
+        <Column Name="self" idref="706a43a4-99a5-47a6-a5c6-fd67d81c66fa" />
+      </ReferedByColumn>
+    </Nesting>
+  </Nesting>
+  <OwnedColumns>
+    <Column Name="AllInstances" ActionPeriodicityMillisec="-1" ColSpan="3" ColSpanWhenInGrid="1" Expression="Class1.AllInstances" ExpressionForReadOnly="" ExpressionForVisible="" IsAction="False" IsStatic="False" NullRowMode="None" NullRowRepresentation="" PresentationString="&lt;Name&gt;" PresentationStringColSpan="1" RowSpan="5" StyleRef="" XPos="0" YPos="0" id="dcb989a0-2c84-4e92-b67f-2e94965e1009">
+      <ReferedNesting>
+        <Nesting Name="AllInstances" idref="633717c2-f628-4e51-93e7-07d8dbfb2b81" />
+      </ReferedNesting>
+    </Column>
+  </OwnedColumns>
+</Span>

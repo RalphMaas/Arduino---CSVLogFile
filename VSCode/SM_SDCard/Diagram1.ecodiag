@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Diagram Name="Diagram1" ChangeDate="0001-01-01 00:00:00" ColorOnNew="0" Comment="" Designer="" ShowAssociationNames="DimDefaults" ShowMethodReturnTypes="False" ShowMethodSignatures="False" ShowVisibility="False" SnapGridSize="8" SquareNewAssociations="False" SquareNewGeneralizations="False" ZoomScaleFactor="0" Id="19a236a3-6bb4-4303-8c2b-7a4aa9a36a4f">
+  <PlacedClass>
+    <PlacedClass ClassId="29019a35-a50a-469e-b956-152e86ae23d0" Color="1692800256" LastKnownName="Class1" PickedFeatureVisibility="ShowAll" RenderedHeight="44" RenderedWidth="88" ShowAttributes="True" ShowMethods="True" Size="1" x="432" y="168" id="29019a35-a50a-469e-b956-152e86ae23d0">
+      <Class>
+        <Class Name="Class1" idref="0017d588-d3cf-433b-b763-93ae056419c3" />
+      </Class>
+    </PlacedClass>
+  </PlacedClass>
+</Diagram>
