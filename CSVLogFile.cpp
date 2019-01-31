@@ -9,7 +9,7 @@
 #include <SD.h>
 #include "CSVLogFile.h"
 
-enum sd_state_enum { INIT, INIT_ERROR, PENDING, CHECKCARD, WRITE, ERROR };
+enum sd_state_enum { INIT, IN_ERROR, PENDING, CHECKCARD, WRITE};
 
 CSVLogFile::CSVLogFile(uint8_t csPin, uint8_t buttonPin)
 {
@@ -58,7 +58,7 @@ void CSVLogFile::_state_machine_run()
       _doInit();
       break;
 
-    case INIT_ERROR:
+    case IN_ERROR:
       _doInitiError();
       break;
 
@@ -79,7 +79,7 @@ void CSVLogFile::_state_machine_run()
 
 void CSVLogFile::_doInit()
 {
-  SD.begin(_cs) ? _state = PENDING : _state = INIT_ERROR;
+  SD.begin(_cs) ? _state = PENDING : _state = IN_ERROR;
 }
 
 void CSVLogFile::_doInitiError()
@@ -113,6 +113,7 @@ void CSVLogFile:: _getNewFileName()
     n++;
     snprintf(_filename, sizeof(_filename), "data%04d.csv", n); 
   };
+  _debug("filename = "+String(_filename));
   _new_file = false;
 }
 void CSVLogFile:: _doCheckCard()
@@ -123,13 +124,12 @@ void CSVLogFile:: _doCheckCard()
       {
         _getNewFileName();
       }
-      _debug("filename = "+String(_filename));
       _state = WRITE;
   }
   else
   {
     _debug("Error in doCheckCard");
-    _state = INIT_ERROR;
+    _state = IN_ERROR;
   }
 }
 
@@ -137,19 +137,17 @@ void CSVLogFile::_doWrite()
 {
     File dataFile = SD.open(_filename, FILE_WRITE);
     if (dataFile) {
-      if(_doWriteEvent){ 
-        _debug("call write event");
-        _doWriteEvent(); 
-        }
+      if(_doWriteEvent){ _doWriteEvent(); }
 
       //    dataFile.println(_csvHeader);
-      _debug(_data);
       dataFile.println(_data);
       dataFile.close();
+
+      _debug(_data);
       _state = PENDING;
     }
     else {
-      _state = INIT_ERROR;
+      _state = IN_ERROR;
   }
 }
 
