@@ -16,7 +16,7 @@ String filename;
 //int buttonState = 0; 
 
 unsigned long previousMillis = 0;
-unsigned long interval = 100;
+unsigned long interval = 5000;
 
 CSVLogFile logfile(chipSelect, BUTTON_PIN);
 
@@ -39,6 +39,7 @@ void setup() {
 
 
 void loop() {
+ logfile.run();
   unsigned long currentMillis = millis();
   if (currentMillis - previousMillis >= interval)
   {
@@ -54,8 +55,8 @@ void loop() {
 
 void onWriteEvent()
 {
-  digitalWrite(LED_WRITE, HIGH);
   digitalWrite(LED_ERROR, LOW);
+  PIND |= (1<<PIND3);
 }
 
 void onErrorEvent()

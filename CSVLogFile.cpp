@@ -18,13 +18,18 @@ CSVLogFile::CSVLogFile(uint8_t csPin, uint8_t buttonPin)
    _new_file = true;
    _state = INIT;
    _fileNumber = 0;
+   _prev_wrt_mill = 0;
+   _prev_pnd_mill = 0;
+   _data = "";
+   _use_debug = false;
+   _new_data = true;
 }
 
 void CSVLogFile::logData(String data, bool debug = false)
 {
     _data = data;
     _use_debug = debug;
-    _state_machine_run();
+    _new_data = true;
 }
 
 void CSVLogFile::begin()
@@ -32,6 +37,10 @@ void CSVLogFile::begin()
   pinMode(_buttonPin,INPUT);
 }
 
+void CSVLogFile::run()
+{
+  _state_machine_run();
+}
 
 void CSVLogFile::onErrorEvent(void *doErrorEvent())
 {
@@ -51,7 +60,7 @@ void CSVLogFile::onWriteEvent(void *doWriteEvent())
 //private methods
 void CSVLogFile::_state_machine_run() 
 {
-  _debug("state = "+String(_state));
+  //_debug("state = "+String(_state));
   
   switch(_state)
   {
@@ -85,13 +94,13 @@ void CSVLogFile::_doInit()
 
 void CSVLogFile::_doInitiError()
 {
-   if(_doErrorEvent){ _doErrorEvent(); }
+   _errorEvent();
    _state = INIT;
 }
 
 void CSVLogFile::_doError()
 {
-   if(_doErrorEvent){ _doErrorEvent(); }
+   _errorEvent();
    _state = PENDING;
 }
 
@@ -99,10 +108,11 @@ void CSVLogFile::_doPending()
 {
    if( digitalRead(_buttonPin) == HIGH){
       _state = CHECKCARD;
+      _writeEvent(); 
    } else{
       _state = PENDING;
       _new_file =true;
-      if(_doPendingEvent){ _doPendingEvent(); }
+      _pendingEvent();
    }
 }
 
@@ -125,27 +135,60 @@ void CSVLogFile:: _doCheckCard()
     _setNewFileName();
   }
   _state = WRITE;
-    
 }
 
 void CSVLogFile::_doWrite()
 {
-    File dataFile = SD.open(_filename, FILE_WRITE);
-    if (dataFile) {
-      if(_doWriteEvent){ _doWriteEvent(); }
-
-      //    dataFile.println(_csvHeader);
-      dataFile.println(_data);
-      dataFile.close();
-
-      _debug(_data);
+    if(_new_data)
+    {
+      File dataFile = SD.open(_filename, FILE_WRITE);
+    
+      if (dataFile) {
+        //    dataFile.println(_csvHeader);
+        dataFile.println(_data);
+        dataFile.close();
+        _new_data = false;
+  
+        _debug(_data);
+        _state = PENDING;
+      }
+      else {
+         _debug(F("error in doWrite"));
+        _state = IN_ERROR;
+      }
+   }
+   else
+    {
       _state = PENDING;
     }
-    else {
-       _debug("error in doWrite");
-      _state = IN_ERROR;
+}
+
+
+void CSVLogFile::_writeEvent()
+{
+  unsigned long cur_mill = millis();
+  if (cur_mill - _prev_wrt_mill  >= 500)
+  {
+     _prev_wrt_mill = cur_mill;
+    if(_doWriteEvent){ _doWriteEvent(); }
   }
 }
+ 
+void CSVLogFile::_pendingEvent()
+{
+  unsigned long cur_mill = millis();
+  if (cur_mill - _prev_pnd_mill  >= 2000)
+  {
+     _prev_pnd_mill = cur_mill;
+     if(_doPendingEvent){ _doPendingEvent(); }
+  }
+}
+ 
+void CSVLogFile::_errorEvent()
+{
+  if(_doErrorEvent){ _doErrorEvent(); }  
+}
+
 
 void CSVLogFile::_debug(String msg)
 {

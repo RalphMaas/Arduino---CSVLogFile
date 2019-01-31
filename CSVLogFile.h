@@ -18,10 +18,13 @@ class CSVLogFile
   CSVLogFile(uint8_t csPin, uint8_t buttonPin);
   void logData(String data, bool debug = false);
   void begin();
+  void run();
   void onErrorEvent(void *doErrorEvent());
   void onPauseEvent(void *_doPendingEvent());
   void onWriteEvent(void *_doWriteEvent());
   private:
+     unsigned long _prev_wrt_mill;
+     unsigned long _prev_pnd_mill;
      uint8_t _cs;
      uint8_t _buttonPin;
      uint8_t _state;
@@ -31,6 +34,7 @@ class CSVLogFile
      bool _new_file;
      char _filename[16];
      String _data;
+     bool _new_data;
 
      void _state_machine_run();
      void _setNewFileName();
@@ -44,5 +48,8 @@ class CSVLogFile
      void (*_doErrorEvent)();
      void (*_doPendingEvent)();
      void (*_doWriteEvent)();
+     void _writeEvent();
+     void _pendingEvent();
+     void _errorEvent();
 };
 #endif
