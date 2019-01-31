@@ -74,9 +74,6 @@ void CSVLogFile::_state_machine_run()
      _doWrite();
       break;
 
-    case ERROR:
-      _doError();
-      break;  
   }
 }
 
@@ -132,7 +129,7 @@ void CSVLogFile:: _doCheckCard()
   else
   {
     _debug("Error in doCheckCard");
-    _state = ERROR;
+    _state = INIT_ERROR;
   }
 }
 
@@ -152,7 +149,7 @@ void CSVLogFile::_doWrite()
       _state = PENDING;
     }
     else {
-      _state = ERROR;
+      _state = INIT_ERROR;
   }
 }
 

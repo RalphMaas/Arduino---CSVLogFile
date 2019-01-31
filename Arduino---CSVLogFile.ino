@@ -53,17 +53,19 @@ void loop() {
 
 void onWriteEvent()
 {
-  PIND |= (1<<PIND3);//blink write led
-  Serial.println("onWriteEvent fired");
+  digitalWrite(LED_WRITE, HIGH);
+  digitalWrite(LED_ERROR, LOW);
 }
 
 void onErrorEvent()
 {
+  digitalWrite(LED_WRITE, LOW);
   digitalWrite(LED_ERROR, HIGH);
 }
 
 void onPauseEvent()
 {
-  PIND |= (1<<PIND2);//blink stop/error led
+  digitalWrite(LED_ERROR, LOW);
+  PIND |= (1<<PIND3);//blink stop/error led
 }
 
