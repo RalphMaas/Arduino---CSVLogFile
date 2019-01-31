@@ -16,7 +16,7 @@ String filename;
 //int buttonState = 0; 
 
 unsigned long previousMillis = 0;
-unsigned long interval = 2500;
+unsigned long interval = 100;
 
 CSVLogFile logfile(chipSelect, BUTTON_PIN);
 
@@ -43,7 +43,8 @@ void loop() {
   if (currentMillis - previousMillis >= interval)
   {
         previousMillis = currentMillis;
-        String dataString = String(currentMillis)+";"+String(loadvoltage)+";"+String(current_mA);
+        //String dataString = String(currentMillis)+";"+String(loadvoltage)+";"+String(current_mA);
+        String dataString = " ;"+String(loadvoltage)+";"+String(current_mA);
         logfile.logData(dataString,true);
         
         loadvoltage++;

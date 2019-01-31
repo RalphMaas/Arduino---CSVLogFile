@@ -17,6 +17,7 @@ CSVLogFile::CSVLogFile(uint8_t csPin, uint8_t buttonPin)
    _buttonPin = buttonPin;
    _new_file = true;
    _state = INIT;
+   _fileNumber = 0;
 }
 
 void CSVLogFile::logData(String data, bool debug = false)
@@ -105,32 +106,26 @@ void CSVLogFile::_doPending()
    }
 }
 
-void CSVLogFile:: _getNewFileName()
+void CSVLogFile:: _setNewFileName()
 {
-  int n = 0;  
-  snprintf(_filename, sizeof(_filename), "data%04d.csv", n); 
+  snprintf(_filename, sizeof(_filename), "data%04d.csv", _fileNumber); 
   while(SD.exists(_filename)) {
-    n++;
-    snprintf(_filename, sizeof(_filename), "data%04d.csv", n); 
+    _fileNumber = _fileNumber + 1;
+    snprintf(_filename, sizeof(_filename), "data%04d.csv", _fileNumber); 
   };
+ 
   _debug("filename = "+String(_filename));
   _new_file = false;
 }
+
 void CSVLogFile:: _doCheckCard()
 {
- //check to access card
-  if (SD.open("/")){
-      if(_new_file)
-      {
-        _getNewFileName();
-      }
-      _state = WRITE;
-  }
-  else
+  if(_new_file)
   {
-    _debug("Error in doCheckCard");
-    _state = IN_ERROR;
+    _setNewFileName();
   }
+  _state = WRITE;
+    
 }
 
 void CSVLogFile::_doWrite()
@@ -147,6 +142,7 @@ void CSVLogFile::_doWrite()
       _state = PENDING;
     }
     else {
+       _debug("error in doWrite");
       _state = IN_ERROR;
   }
 }

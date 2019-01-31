@@ -8,7 +8,7 @@
       <TransitionSource>
         <TransitionSource NextLegDrawKind="0" SideToUse="3" ViaPointsStartsHere="True" x="-45.5" y="16" id="01612941-660e-4a19-845d-7ad8e2baab05">
           <next>
-            <TransitionTarget LabelAngle="-0.74194726800592" LabelDistance="13.0230564768797" NextLegDrawKind="0" SideToUse="1" ViaPointsStartsHere="False" x="41.5" y="16" id="bbe1a4e7-ba77-48cc-b7c9-989985e72316">
+            <TransitionTarget LabelAngle="-1.5707963267949" LabelDistance="19.2" NextLegDrawKind="0" SideToUse="1" ViaPointsStartsHere="False" x="33.5" y="16" id="bbe1a4e7-ba77-48cc-b7c9-989985e72316">
               <Transition>
                 <Transition idref="7592e6d5-dd93-459a-87d2-bacb4b77689d" />
               </Transition>
@@ -54,22 +54,22 @@
         <State Name="CheckCard" idref="0aed98d6-d771-4fb4-a63f-867113caeef3" />
       </Vertex>
     </PlacedState>
-    <PlacedState Color="1693511920" LastKnownName="OpenFile" RenderedHeight="48" RenderedWidth="83" Size="1" x="192" y="408" id="21db8d0d-9e13-4eb7-853b-e8d378fe456b">
+    <PlacedState Color="1693511920" LastKnownName="Write" RenderedHeight="48" RenderedWidth="67" Size="1" x="192" y="408" id="21db8d0d-9e13-4eb7-853b-e8d378fe456b">
       <TransitionSource>
-        <TransitionSource NextLegDrawKind="0" SideToUse="0" ViaPointsStartsHere="True" x="8" y="0" id="580c7575-4685-490c-a4ff-5550d930efd6">
+        <TransitionSource NextLegDrawKind="0" SideToUse="0" ViaPointsStartsHere="True" x="24" y="0" id="24150d93-08ca-49c7-bad1-eccd41612aab">
           <next>
-            <FreeAirViaPoint NextLegDrawKind="0" x="200" y="352" id="f958b791-672b-43c0-a585-1bbb61a22f0a">
+            <FreeAirViaPoint NextLegDrawKind="0" x="216" y="280" id="865ec890-c00b-4556-aacf-d0a192c72cb5">
               <next>
-                <TransitionTarget NextLegDrawKind="0" SideToUse="3" ViaPointsStartsHere="False" x="-33.5" y="16" id="085b3848-9e8e-4210-982b-5bdc101dda26">
+                <TransitionTarget NextLegDrawKind="0" SideToUse="3" ViaPointsStartsHere="False" x="-39.5" y="24" id="b183fc33-7b65-4aa4-81a9-0903c737ee56">
                   <Transition>
-                    <Transition idref="645cf19c-eb33-48c0-9d44-b2f901cbfe0a" />
+                    <Transition idref="a9369fa8-8372-47c5-a170-02de3065a292" />
                   </Transition>
                 </TransitionTarget>
               </next>
             </FreeAirViaPoint>
           </next>
           <Transition>
-            <Transition idref="645cf19c-eb33-48c0-9d44-b2f901cbfe0a" />
+            <Transition idref="a9369fa8-8372-47c5-a170-02de3065a292" />
           </Transition>
         </TransitionSource>
         <TransitionSource NextLegDrawKind="0" SideToUse="0" ViaPointsStartsHere="True" x="-8" y="0" id="ca340098-83b4-4f68-bcf6-12bada9ccd8a">
@@ -86,43 +86,17 @@
         </TransitionSource>
       </TransitionSource>
       <TransitionTarget>
-        <TransitionTarget LabelAngle="-0.74194726800592" LabelDistance="13.0230564768797" NextLegDrawKind="0" SideToUse="1" ViaPointsStartsHere="False" x="41.5" y="16" id="bbe1a4e7-ba77-48cc-b7c9-989985e72316">
+        <TransitionTarget LabelAngle="-1.5707963267949" LabelDistance="19.2" NextLegDrawKind="0" SideToUse="1" ViaPointsStartsHere="False" x="33.5" y="16" id="bbe1a4e7-ba77-48cc-b7c9-989985e72316">
           <Transition>
             <Transition idref="7592e6d5-dd93-459a-87d2-bacb4b77689d" />
           </Transition>
         </TransitionTarget>
       </TransitionTarget>
       <Vertex>
-        <State Name="OpenFile" idref="bdf6ca88-bd18-4748-b8b8-1714aa4f94b1" />
+        <State Name="Write" idref="bdf6ca88-bd18-4748-b8b8-1714aa4f94b1" />
       </Vertex>
     </PlacedState>
-    <PlacedState Color="1693511920" LastKnownName="CloseFile" RenderedHeight="48" RenderedWidth="84" Size="1" x="264" y="256" id="5a9b1b58-4771-415a-ba18-c6fff2358315">
-      <TransitionSource>
-        <TransitionSource NextLegDrawKind="0" SideToUse="1" ViaPointsStartsHere="True" x="42" y="24" id="c748c055-34e9-4004-b71d-d3599a1cc291">
-          <next>
-            <TransitionTarget NextLegDrawKind="0" SideToUse="3" ViaPointsStartsHere="False" x="-39.5" y="24" id="dfb834bc-cb2d-4f1f-8f2e-5940778c25cf">
-              <Transition>
-                <Transition idref="0d4c8949-d504-4744-9224-2da494eead35" />
-              </Transition>
-            </TransitionTarget>
-          </next>
-          <Transition>
-            <Transition idref="0d4c8949-d504-4744-9224-2da494eead35" />
-          </Transition>
-        </TransitionSource>
-      </TransitionSource>
-      <TransitionTarget>
-        <TransitionTarget NextLegDrawKind="0" SideToUse="2" ViaPointsStartsHere="False" x="0" y="48" id="c8781b52-da8b-4306-9d02-60e2d79a1a68">
-          <Transition>
-            <Transition idref="aa05d321-323b-4aba-8d16-10d66bbee6b1" />
-          </Transition>
-        </TransitionTarget>
-      </TransitionTarget>
-      <Vertex>
-        <State Name="CloseFile" idref="fdf4bcd7-744e-444d-8ebb-c304df296205" />
-      </Vertex>
-    </PlacedState>
-    <PlacedState Color="1693511920" LastKnownName="Error" RenderedHeight="48" RenderedWidth="66" Size="1" x="184" y="136" id="5f5121be-5967-4a27-8155-74b11cc96e03">
+    <PlacedState Color="1693511920" LastKnownName="InError" RenderedHeight="48" RenderedWidth="66" Size="1" x="184" y="136" id="5f5121be-5967-4a27-8155-74b11cc96e03">
       <TransitionSource>
         <TransitionSource NextLegDrawKind="0" SideToUse="0" ViaPointsStartsHere="True" x="0" y="0" id="d989c91b-8308-40d8-b1f9-1f8d1e96bbcb">
           <next>
@@ -163,7 +137,7 @@
         </TransitionTarget>
       </TransitionTarget>
       <Vertex>
-        <State Name="Error" idref="3105b212-9cef-45dc-93f0-a7db39bfe88c" />
+        <State Name="InError" idref="3105b212-9cef-45dc-93f0-a7db39bfe88c" />
       </Vertex>
     </PlacedState>
     <PlacedState Color="1693511920" LastKnownName="Pending" RenderedHeight="48" RenderedWidth="79" Size="1" x="400" y="256" id="d5567f70-c8b8-42f5-8f52-ad7bdef49853">
@@ -215,14 +189,14 @@
             <Transition idref="def58371-9bf7-414b-89ff-4f52e5b785e0" />
           </Transition>
         </TransitionTarget>
-        <TransitionTarget LabelAngle="3.21189911770842" LabelDistance="56.9406708776776" NextLegDrawKind="0" SideToUse="0" ViaPointsStartsHere="False" x="0" y="0" id="cd18bbed-33c9-45cb-95de-2868816c3933">
+        <TransitionTarget NextLegDrawKind="0" SideToUse="3" ViaPointsStartsHere="False" x="-39.5" y="24" id="b183fc33-7b65-4aa4-81a9-0903c737ee56">
           <Transition>
-            <Transition idref="480eba9d-437e-437b-b3f3-d0819b24014c" />
+            <Transition idref="a9369fa8-8372-47c5-a170-02de3065a292" />
           </Transition>
         </TransitionTarget>
-        <TransitionTarget NextLegDrawKind="0" SideToUse="3" ViaPointsStartsHere="False" x="-39.5" y="24" id="dfb834bc-cb2d-4f1f-8f2e-5940778c25cf">
+        <TransitionTarget LabelAngle="3.17861276946373" LabelDistance="64.8444292133102" NextLegDrawKind="0" SideToUse="0" ViaPointsStartsHere="False" x="0" y="0" id="cd18bbed-33c9-45cb-95de-2868816c3933">
           <Transition>
-            <Transition idref="0d4c8949-d504-4744-9224-2da494eead35" />
+            <Transition idref="480eba9d-437e-437b-b3f3-d0819b24014c" />
           </Transition>
         </TransitionTarget>
       </TransitionTarget>
@@ -230,11 +204,11 @@
         <State Name="Pending" idref="9c339cec-2fc1-4d9d-98c9-38686bbb18c2" />
       </Vertex>
     </PlacedState>
-    <PlacedState Color="1693511920" LastKnownName="Initialize" RenderedHeight="48" RenderedWidth="79" Size="1" x="392" y="136" id="de0fc5e1-4a2b-409b-a2a9-dc20a11e0b64">
+    <PlacedState Color="1693511920" LastKnownName="Init" RenderedHeight="48" RenderedWidth="79" Size="1" x="392" y="136" id="de0fc5e1-4a2b-409b-a2a9-dc20a11e0b64">
       <TransitionSource>
         <TransitionSource NextLegDrawKind="0" SideToUse="2" ViaPointsStartsHere="True" x="8" y="48" id="55783429-a59e-4e00-84b8-d21ce62a9a59">
           <next>
-            <TransitionTarget LabelAngle="3.21189911770842" LabelDistance="56.9406708776776" NextLegDrawKind="0" SideToUse="0" ViaPointsStartsHere="False" x="0" y="0" id="cd18bbed-33c9-45cb-95de-2868816c3933">
+            <TransitionTarget LabelAngle="3.17861276946373" LabelDistance="64.8444292133102" NextLegDrawKind="0" SideToUse="0" ViaPointsStartsHere="False" x="0" y="0" id="cd18bbed-33c9-45cb-95de-2868816c3933">
               <Transition>
                 <Transition idref="480eba9d-437e-437b-b3f3-d0819b24014c" />
               </Transition>
@@ -270,33 +244,7 @@
         </TransitionTarget>
       </TransitionTarget>
       <Vertex>
-        <State Name="Initialize" idref="1adacc3c-227b-403e-8baa-f9bc160ecc77" />
-      </Vertex>
-    </PlacedState>
-    <PlacedState Color="1693511920" LastKnownName="Write" RenderedHeight="48" RenderedWidth="67" Size="1" x="256" y="336" id="f49c2527-c3f0-4b86-90f5-64b3879a5675">
-      <TransitionSource>
-        <TransitionSource NextLegDrawKind="0" SideToUse="0" ViaPointsStartsHere="True" x="8" y="0" id="ee87f6e1-b323-4cb7-834d-9060c9e35440">
-          <next>
-            <TransitionTarget NextLegDrawKind="0" SideToUse="2" ViaPointsStartsHere="False" x="0" y="48" id="c8781b52-da8b-4306-9d02-60e2d79a1a68">
-              <Transition>
-                <Transition idref="aa05d321-323b-4aba-8d16-10d66bbee6b1" />
-              </Transition>
-            </TransitionTarget>
-          </next>
-          <Transition>
-            <Transition idref="aa05d321-323b-4aba-8d16-10d66bbee6b1" />
-          </Transition>
-        </TransitionSource>
-      </TransitionSource>
-      <TransitionTarget>
-        <TransitionTarget NextLegDrawKind="0" SideToUse="3" ViaPointsStartsHere="False" x="-33.5" y="16" id="085b3848-9e8e-4210-982b-5bdc101dda26">
-          <Transition>
-            <Transition idref="645cf19c-eb33-48c0-9d44-b2f901cbfe0a" />
-          </Transition>
-        </TransitionTarget>
-      </TransitionTarget>
-      <Vertex>
-        <State Name="Write" idref="1291aab1-8d4c-4742-aa90-db39093206fa" />
+        <State Name="Init" idref="1adacc3c-227b-403e-8baa-f9bc160ecc77" />
       </Vertex>
     </PlacedState>
     <PlacedState Color="1693511920" LastKnownName="Start1" RenderedHeight="10" RenderedWidth="10" Size="1" x="392" y="56" id="f5f5d80a-7b7a-4af7-b28a-d0d78a62ebf3">

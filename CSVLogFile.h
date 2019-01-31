@@ -22,19 +22,18 @@ class CSVLogFile
   void onPauseEvent(void *_doPendingEvent());
   void onWriteEvent(void *_doWriteEvent());
   private:
-     unsigned long t_start = 0;
-     unsigned long t_cur = 0;
      uint8_t _cs;
      uint8_t _buttonPin;
      uint8_t _state;
      uint8_t _state_prev;
+     int _fileNumber;
      bool _use_debug;
      bool _new_file;
      char _filename[16];
      String _data;
 
      void _state_machine_run();
-     void _getNewFileName();
+     void _setNewFileName();
      void _doInit();
      void _doInitiError();
      void _doPending();

@@ -34,36 +34,20 @@
                 <Attribute Name="State" idref="a42cc9f8-6d3d-466f-9de4-a4b81bb95040" />
               </StateAttribute>
               <Transition>
-                <Transition Guard="OCL: " id="0d4c8949-d504-4744-9224-2da494eead35">
-                  <Source>
-                    <State Name="CloseFile" idref="fdf4bcd7-744e-444d-8ebb-c304df296205" />
-                  </Source>
-                  <Target>
-                    <State Name="Pending" idref="9c339cec-2fc1-4d9d-98c9-38686bbb18c2" />
-                  </Target>
-                </Transition>
                 <Transition Guard="OCL: " id="0df06159-c97b-4a5e-adb7-790b746fbd7d">
                   <Source>
-                    <State Name="Error" idref="3105b212-9cef-45dc-93f0-a7db39bfe88c" />
+                    <State Name="InError" idref="3105b212-9cef-45dc-93f0-a7db39bfe88c" />
                   </Source>
                   <Target>
-                    <State Name="Initialize" idref="1adacc3c-227b-403e-8baa-f9bc160ecc77" />
+                    <State Name="Init" idref="1adacc3c-227b-403e-8baa-f9bc160ecc77" />
                   </Target>
                 </Transition>
                 <Transition Guard="OCL: ready=true" id="480eba9d-437e-437b-b3f3-d0819b24014c">
                   <Source>
-                    <State Name="Initialize" idref="1adacc3c-227b-403e-8baa-f9bc160ecc77" />
+                    <State Name="Init" idref="1adacc3c-227b-403e-8baa-f9bc160ecc77" />
                   </Source>
                   <Target>
                     <State Name="Pending" idref="9c339cec-2fc1-4d9d-98c9-38686bbb18c2" />
-                  </Target>
-                </Transition>
-                <Transition Guard="OCL: " id="645cf19c-eb33-48c0-9d44-b2f901cbfe0a">
-                  <Source>
-                    <State Name="OpenFile" idref="bdf6ca88-bd18-4748-b8b8-1714aa4f94b1" />
-                  </Source>
-                  <Target>
-                    <State Name="Write" idref="1291aab1-8d4c-4742-aa90-db39093206fa" />
                   </Target>
                 </Transition>
                 <Transition Guard="OCL: card_ready=true" id="7592e6d5-dd93-459a-87d2-bacb4b77689d">
@@ -71,31 +55,31 @@
                     <State Name="CheckCard" idref="0aed98d6-d771-4fb4-a63f-867113caeef3" />
                   </Source>
                   <Target>
-                    <State Name="OpenFile" idref="bdf6ca88-bd18-4748-b8b8-1714aa4f94b1" />
+                    <State Name="Write" idref="bdf6ca88-bd18-4748-b8b8-1714aa4f94b1" />
                   </Target>
                 </Transition>
                 <Transition Guard="OCL: " id="8472a571-59cb-4f61-9f64-f7642c2a00ec">
                   <Source>
-                    <State Name="OpenFile" idref="bdf6ca88-bd18-4748-b8b8-1714aa4f94b1" />
+                    <State Name="Write" idref="bdf6ca88-bd18-4748-b8b8-1714aa4f94b1" />
                   </Source>
                   <Target>
-                    <State Name="Error" idref="3105b212-9cef-45dc-93f0-a7db39bfe88c" />
+                    <State Name="InError" idref="3105b212-9cef-45dc-93f0-a7db39bfe88c" />
                   </Target>
                 </Transition>
                 <Transition Guard="OCL: ready=false" id="a8c0c56a-8eb6-488d-a53e-721b4312205d">
                   <Source>
-                    <State Name="Initialize" idref="1adacc3c-227b-403e-8baa-f9bc160ecc77" />
+                    <State Name="Init" idref="1adacc3c-227b-403e-8baa-f9bc160ecc77" />
                   </Source>
                   <Target>
-                    <State Name="Error" idref="3105b212-9cef-45dc-93f0-a7db39bfe88c" />
+                    <State Name="InError" idref="3105b212-9cef-45dc-93f0-a7db39bfe88c" />
                   </Target>
                 </Transition>
-                <Transition Guard="OCL: " id="aa05d321-323b-4aba-8d16-10d66bbee6b1">
+                <Transition Guard="OCL: " id="a9369fa8-8372-47c5-a170-02de3065a292">
                   <Source>
-                    <State Name="Write" idref="1291aab1-8d4c-4742-aa90-db39093206fa" />
+                    <State Name="Write" idref="bdf6ca88-bd18-4748-b8b8-1714aa4f94b1" />
                   </Source>
                   <Target>
-                    <State Name="CloseFile" idref="fdf4bcd7-744e-444d-8ebb-c304df296205" />
+                    <State Name="Pending" idref="9c339cec-2fc1-4d9d-98c9-38686bbb18c2" />
                   </Target>
                 </Transition>
                 <Transition Guard="OCL: button=true" id="b5d6459e-9b48-40d3-9969-609c3b7c7016">
@@ -119,7 +103,7 @@
                     <State Name="CheckCard" idref="0aed98d6-d771-4fb4-a63f-867113caeef3" />
                   </Source>
                   <Target>
-                    <State Name="Error" idref="3105b212-9cef-45dc-93f0-a7db39bfe88c" />
+                    <State Name="InError" idref="3105b212-9cef-45dc-93f0-a7db39bfe88c" />
                   </Target>
                 </Transition>
                 <Transition Guard="OCL: " id="e039d5ec-4799-47ed-b542-f47467971249">
@@ -127,7 +111,7 @@
                     <PseudoState Name="Start1" idref="3da3ed1a-32dc-4eda-b8f3-9009b1343186" />
                   </Source>
                   <Target>
-                    <State Name="Initialize" idref="1adacc3c-227b-403e-8baa-f9bc160ecc77" />
+                    <State Name="Init" idref="1adacc3c-227b-403e-8baa-f9bc160ecc77" />
                   </Target>
                 </Transition>
               </Transition>
@@ -140,15 +124,7 @@
                     <PlacedState idref="0ce656a7-9472-44de-b34b-88b07fed56f4" />
                   </PlacedState>
                 </State>
-                <State Name="Write" CodeComment="" id="1291aab1-8d4c-4742-aa90-db39093206fa">
-                  <Entry>
-                    <Activity Body="doWrite" />
-                  </Entry>
-                  <PlacedState>
-                    <PlacedState idref="f49c2527-c3f0-4b86-90f5-64b3879a5675" />
-                  </PlacedState>
-                </State>
-                <State Name="Initialize" CodeComment="" id="1adacc3c-227b-403e-8baa-f9bc160ecc77">
+                <State Name="Init" CodeComment="" id="1adacc3c-227b-403e-8baa-f9bc160ecc77">
                   <Entry>
                     <Activity Body="doInitialize" />
                   </Entry>
@@ -156,7 +132,7 @@
                     <PlacedState idref="de0fc5e1-4a2b-409b-a2a9-dc20a11e0b64" />
                   </PlacedState>
                 </State>
-                <State Name="Error" CodeComment="" id="3105b212-9cef-45dc-93f0-a7db39bfe88c">
+                <State Name="InError" CodeComment="" id="3105b212-9cef-45dc-93f0-a7db39bfe88c">
                   <Entry>
                     <Activity Body="doError" />
                   </Entry>
@@ -177,20 +153,12 @@
                     <PlacedState idref="d5567f70-c8b8-42f5-8f52-ad7bdef49853" />
                   </PlacedState>
                 </State>
-                <State Name="OpenFile" CodeComment="" id="bdf6ca88-bd18-4748-b8b8-1714aa4f94b1">
+                <State Name="Write" CodeComment="" id="bdf6ca88-bd18-4748-b8b8-1714aa4f94b1">
                   <Entry>
-                    <Activity Body="doOpenFile" />
+                    <Activity Body="doWrite" />
                   </Entry>
                   <PlacedState>
                     <PlacedState idref="21db8d0d-9e13-4eb7-853b-e8d378fe456b" />
-                  </PlacedState>
-                </State>
-                <State Name="CloseFile" CodeComment="" id="fdf4bcd7-744e-444d-8ebb-c304df296205">
-                  <Entry>
-                    <Activity Body="doCloseFile" />
-                  </Entry>
-                  <PlacedState>
-                    <PlacedState idref="5a9b1b58-4771-415a-ba18-c6fff2358315" />
                   </PlacedState>
                 </State>
               </Vertex>
