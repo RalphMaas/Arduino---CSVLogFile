@@ -19,37 +19,38 @@ class CSVLogFile
   void logData(String data, bool debug = false);
   void begin();
   void run();
-  void onErrorEvent(void *doErrorEvent());
-  void onPauseEvent(void *_doPendingEvent());
-  void onWriteEvent(void *_doWriteEvent());
-  private:
-     unsigned long _prev_wrt_mill;
-     unsigned long _prev_pnd_mill;
-     uint8_t _cs;
-     uint8_t _buttonPin;
-     uint8_t _state;
-     uint8_t _state_prev;
-     int _fileNumber;
-     bool _use_debug;
-     bool _new_file;
-     char _filename[16];
-     String _data;
-     bool _new_data;
+  void onErrorEvent(void *error_event());
+  void onPauseEvent(void *pending_event());
+  void onWriteEvent(void *write_event());
+ 
+private:
+     unsigned long prev_write_mills;
+     unsigned long prev_pendiing_mills;
+    
+	 uint8_t chip_select_pin;
+     uint8_t log_pause_button_pin;
+     uint8_t state;
+     
+	 int postfix__filenumber;
+     bool in_debug_mode;
+     bool start_a_new_file;
+     char filename[16];
+     String log_data;
+     bool open_file_and_write_data;
 
-     void _state_machine_run();
-     void _setNewFileName();
-     void _doInit();
-     void _doInitiError();
-     void _doPending();
-     void _doCheckCard();
-     void _doWrite();
-     void _doError();
-     void _debug(String msg);
-     void (*_doErrorEvent)();
-     void (*_doPendingEvent)();
-     void (*_doWriteEvent)();
-     void _writeEvent();
-     void _pendingEvent();
-     void _errorEvent();
+     void statemachine_run();
+     void set_new_filename();
+     void do_state_init();
+     void do_state_error();
+     void do_state_pending();
+     void do_state_check();
+     void do_state_write();
+     void write_debug_msg(String msg);
+     void (*do_error_event)();
+     void (*do_pending_event)();
+     void (*do_write_event)();
+     void write_event();
+     void pending_event();
+     void error_event();
 };
 #endif
