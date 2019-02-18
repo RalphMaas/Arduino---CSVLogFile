@@ -50,6 +50,7 @@ void loop() {
         
         loadvoltage++;
         current_mA++;
+        
   }
 }
 
