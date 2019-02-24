@@ -4,8 +4,11 @@
 #include <Wire.h>
 
 
-#include "CSVLogFile.h";
 
+#include "CSVLogFile.h";
+#include "LogRTC.h"
+
+const int DS1307_ADDRESS = 0x68;
 const int chipSelect = 10;
 const int LED_ERROR = 2;
 const int LED_WRITE = 3;
@@ -22,6 +25,7 @@ unsigned long interval = 5000;
 
 
 CSVLogFile logfile(chipSelect, BUTTON_PIN);
+LogRTC LogRTC(0x68);
 
 void setup() {
   
@@ -56,6 +60,9 @@ void loop() {
         
         loadvoltage++;
         current_mA++;
+
+
+        Serial.println(LogRTC.get_datetime());
         
   }
 }

@@ -4,8 +4,13 @@
 #else
 #include "WProgram.h"
 #endif
+#include <Wire.h>
+
+
 #include "LogRTC.h";
-#include "Wire.h";
+
+
+
 
 byte zero = 0x00; //workaround for issue #527
 char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};

@@ -7,15 +7,14 @@
 
 #include <SPI.h>
 #include <SD.h>
-#include "LogRTC.h";
 
-#include "CSVLogFile.h"
+
+#include "CSVLogFile.h";
 
 enum sd_state_enum { STATE_INIT, STATE_ERROR, STATE_PENDING, STATE_CHECK, STATE_WRITE };
 
-CSVLogFile::CSVLogFile(uint8_t csPin, uint8_t buttonPin,uint8_t i2cAddress))
+CSVLogFile::CSVLogFile(uint8_t csPin, uint8_t buttonPin)
 {
-  address = i2cAddress;
 	chip_select_pin = csPin;
 	log_pause_button_pin = buttonPin;
 	start_a_new_file = true;
@@ -26,7 +25,6 @@ CSVLogFile::CSVLogFile(uint8_t csPin, uint8_t buttonPin,uint8_t i2cAddress))
 	log_data = "";
 	in_debug_mode = false;
 	open_file_and_write_data = true;
-  logRTC
 }
 
 void CSVLogFile::logData(String data, bool debug = false)

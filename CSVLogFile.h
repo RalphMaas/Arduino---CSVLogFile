@@ -15,7 +15,7 @@
 class CSVLogFile
 {
   public:
-  CSVLogFile(uint8_t csPin, uint8_t buttonPin, uint8_t i2cAddress));
+  CSVLogFile(uint8_t csPin, uint8_t buttonPin);
   void logData(String data, bool debug = false);
   void begin();
   void run();
@@ -27,18 +27,16 @@ private:
      unsigned long prev_write_mills;
      unsigned long prev_pendiing_mills;
      
-     uint8_t address;  
+     
 	   uint8_t chip_select_pin;
      uint8_t log_pause_button_pin;
      uint8_t state;
-     
 	   int postfix__filenumber;
      bool in_debug_mode;
      bool start_a_new_file;
      char filename[16];
      String log_data;
      bool open_file_and_write_data;
-     LogRTC logRTC;
      void statemachine_run();
      void set_new_filename();
      void do_state_init();
