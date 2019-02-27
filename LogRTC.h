@@ -14,7 +14,7 @@
 class LogRTC
 {
   public:
-    LogRTC(uint8_t i2cAddress);
+    LogRTC(int i2cAddress);
     void set_date(byte newYear, byte newMonth, byte newDay, byte newDayofweek);
     void set_time(byte newHour, byte newMinute, byte newSecond);
     String get_date();
@@ -22,7 +22,7 @@ class LogRTC
     String get_datetime();
     String get_datofweek();
   private:
-    uint8_t address;  
+    int address;  
 
     uint16_t year;
     uint16_t month;

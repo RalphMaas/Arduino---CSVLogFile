@@ -18,7 +18,6 @@ const int BUTTON_PIN = 6;
 float current_mA = 0;
 float loadvoltage = 0;
 String filename;
-//int buttonState = 0; 
 
 unsigned long previousMillis = 0;
 unsigned long interval = 5000;
@@ -46,7 +45,7 @@ void setup() {
 
 
 void loop() {
- logfile.run();
+  logfile.run();
   unsigned long currentMillis = millis();
 
   

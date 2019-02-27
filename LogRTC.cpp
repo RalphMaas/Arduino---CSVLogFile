@@ -4,18 +4,15 @@
 #else
 #include "WProgram.h"
 #endif
+
 #include <Wire.h>
 
-
 #include "LogRTC.h";
-
-
-
 
 byte zero = 0x00; //workaround for issue #527
 char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
-LogRTC :: LogRTC(uint8_t i2cAddress){
+LogRTC :: LogRTC(int i2cAddress){
   address = i2cAddress;
 }
 
@@ -89,8 +86,8 @@ void LogRTC :: read_datetime()
   Wire.beginTransmission(address);
   Wire.write(zero);
   Wire.endTransmission();
-
-  Wire.requestFrom(address, 7);
+  int b = 7;
+  Wire.requestFrom(address, b);
 
   second = bcdToDec(Wire.read());
   minute = bcdToDec(Wire.read());

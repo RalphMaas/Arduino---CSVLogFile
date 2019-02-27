@@ -66,26 +66,25 @@ void CSVLogFile::statemachine_run()
 
 	switch (state)
 	{
-	case STATE_INIT:
-		do_state_init();
-		break;
-
-	case STATE_ERROR:
-		do_state_error();
-		break;
-
-	case STATE_PENDING:
-		do_state_pending();
-		break;
-
-	case STATE_CHECK:
-		do_state_check();
-		break;
-
-	case STATE_WRITE:
-		do_state_write();
-		break;
-
+  	case STATE_INIT:
+  		do_state_init();
+  		break;
+  
+  	case STATE_ERROR:
+  		do_state_error();
+  		break;
+  
+  	case STATE_PENDING:
+  		do_state_pending();
+  		break;
+  
+  	case STATE_CHECK:
+  		do_state_check();
+  		break;
+  
+  	case STATE_WRITE:
+  		do_state_write();
+  		break;
 	}
 }
 
